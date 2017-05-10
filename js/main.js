@@ -7,6 +7,9 @@ app.config(['$routeProvider', function($routeProvider){
   // Root: Posts Index
   .when("/", {templateUrl: "partials/posts/post_index.html", controller: "postsController"})
 
+  // Post show
+  .when("/posts/:id", {templateUrl: "partials/posts/post_show.html", controller: "postsController"})
+
   // else: 404 Error
   .otherwise({templateUrl: "partials/404.html", controller: "appController"});
 }]);
@@ -42,11 +45,40 @@ app.controller('appController', ['$scope', '$log', function($scope, $log){
 }]);
 
 // Posts Controller
-app.controller('postsController', ['$scope', '$log', 'Post', 'Msg', function($scope, $log, Post, Msg){
-  Post.query(
-    function(posts){
-      $scope.posts = posts.slice(0, 100);
+app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', '$http', 'Post', 'Msg', function($scope, $log, $filter, $routeParams, $http, Post, Msg){
+  // Get first 100 posts from API
+  function fetchAllPosts(){
+    Post.query(
+      function(posts){
+        $scope.posts = posts.slice(0, 100);
+      }, function(err){
+        Msg.err(err);
+      }
+    );
+  };
+
+  // Get user (author) of post
+  function fetchUser(){
+    $http.get('http://jsonplaceholder.typicode.com/users/' + $scope.post.userId).then(function(user){
+      $scope.user = user;
+    });
+    $log.debug($scope.user);
+  };
+
+  // Get selected post from API
+  function fetchPost(){
+    Post.get({id: $routeParams.id}, function(post){
+      $scope.post = post;
+      fetchUser();
     }, function(err){
       Msg.err(err);
     })
+  };
+
+  // Check to see if an id is being passed in params
+  if ($routeParams.id){
+    fetchPost();
+  }else{
+    fetchAllPosts();
+  }
 }]);
