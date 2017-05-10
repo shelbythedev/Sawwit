@@ -46,39 +46,33 @@ app.controller('appController', ['$scope', '$log', function($scope, $log){
 
 // Posts Controller
 app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', '$http', 'Post', 'Msg', function($scope, $log, $filter, $routeParams, $http, Post, Msg){
+  // Find user account associated with post
+  function fetchUser(post){
+    $http.get('http://jsonplaceholder.typicode.com/users/' + post.userId).then(function(user){
+      post.user = user.data;
+    });
+  };
+
+  // Iterate through posts and fetch users for each
+  function fetchUsers(){
+    angular.forEach($scope.posts, function(post, index){
+      fetchUser(post);
+    });
+  };
+
   // Get first 100 posts from API
   function fetchAllPosts(){
     Post.query(
       function(posts){
-        $scope.posts = posts.slice(0, 100);
+        $scope.posts = posts;
+        fetchUsers();
       }, function(err){
         Msg.err(err);
       }
     );
   };
 
-  // Get user (author) of post
-  function fetchUser(){
-    $http.get('http://jsonplaceholder.typicode.com/users/' + $scope.post.userId).then(function(user){
-      $scope.user = user;
-    });
-    $log.debug($scope.user);
-  };
-
-  // Get selected post from API
-  function fetchPost(){
-    Post.get({id: $routeParams.id}, function(post){
-      $scope.post = post;
-      fetchUser();
-    }, function(err){
-      Msg.err(err);
-    })
-  };
-
-  // Check to see if an id is being passed in params
-  if ($routeParams.id){
-    fetchPost();
-  }else{
+  $scope.loadPosts = function(){
     fetchAllPosts();
-  }
+  };
 }]);
