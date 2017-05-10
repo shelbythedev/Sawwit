@@ -5,10 +5,10 @@ app.config(['$routeProvider', function($routeProvider){
   $routeProvider
 
   // Root: Posts Index
-  .when('/', {templateUrl: 'partials/posts/post_index.html', controller: 'postsController'})
+  .when("/", {templateUrl: "partials/posts/post_index.html", controller: "postsController"})
 
   // else: 404 Error
-  .otherwise('/404', {templateUrl: 'partials/404.html', controller: 'appController'});
+  .otherwise({templateUrl: "partials/404.html", controller: "appController"});
 }]);
 
 //==== Controllers ====
