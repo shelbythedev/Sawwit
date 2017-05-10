@@ -46,7 +46,7 @@ app.controller('appController', ['$scope', '$log', function($scope, $log){
 
 // Posts Controller
 app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', '$http', 'Post', 'Msg', function($scope, $log, $filter, $routeParams, $http, Post, Msg){
-  // Find user account associated with post
+  // Find user account by post.userId
   function fetchUser(post){
     $http.get('http://jsonplaceholder.typicode.com/users/' + post.userId).then(function(user){
       post.user = user.data;
@@ -61,7 +61,7 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
   };
 
   // Get first 100 posts from API
-  function fetchAllPosts(){
+  $scope.fetchAllPosts = function(){
     Post.query(
       function(posts){
         $scope.posts = posts;
@@ -72,7 +72,10 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
     );
   };
 
-  $scope.loadPosts = function(){
-    fetchAllPosts();
+  $scope.fetchPost = function(){
+    Post.get({id: $routeParams.id}, function(post){
+      fetchUser(post);
+      $scope.post = post;
+    });
   };
 }]);
