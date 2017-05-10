@@ -5,27 +5,17 @@
     <title>Sawwit | Definitely not a Reddit clone.</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Mr+Dafoe" rel="stylesheet">
+    <link rel="shortcut icon" href="">
+  </head>
+  <body ng-app="sawwit">
+    <div ng-include='"templates/header.html"'></div>
+    <div ng-view></div>
+    <div ng-include='"templates/footer.html"'></div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.12/angular.min.js"></script>
-  </head>
-  <body>
-    <!-- Begin header -->
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Sawwit</a>
-        </div>
-      </div>
-    </nav>
-    <!-- End header -->
-
-    <!-- Begin footer -->
-    <footer>
-      <h6>A demo project created by <a href="http://shelbysolomon.net">Shelby Solomon</a>.</h6>
-    </footer>
-    <!-- End footer -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.12/angular-route.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
