@@ -1,4 +1,4 @@
-var app = angular.module('sawwit', ['ngRoute'])
+var app = angular.module('sawwit', ['ngRoute', 'ngResource'])
 
 //==== Routes ====
 app.config(['$routeProvider', function($routeProvider){
