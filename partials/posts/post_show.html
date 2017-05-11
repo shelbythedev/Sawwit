@@ -1,6 +1,8 @@
 <div class="row" ng-init="fetchPost()">
   <div class="col-md-12">
     <h1>{{post.title}}</h1>
+    <span ng-show="!post.liked" ng-click="likePost(post)" class="glyphicon glyphicon-star-empty"></span>
+    <span ng-show="post.liked" ng-click="unlikePost(post)" class="glyphicon glyphicon-star"></span>
     <h6>by <a href="#">{{post.user.username}}</a></h6>
     <p>
       {{post.body}}

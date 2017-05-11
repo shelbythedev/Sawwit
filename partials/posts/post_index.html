@@ -9,7 +9,9 @@
         {{post.body}}
       </p>
 
-      <span class="glyphicon glyphicon-thumbs-up"></span>
+      <span ng-show="!post.liked" ng-click="likePost(post)" class="glyphicon glyphicon-star-empty"></span>
+      <span ng-show="post.liked" ng-click="unlikePost(post)" class="glyphicon glyphicon-star"></span>
+
       <hr />
     </div>
   </div>

@@ -38,7 +38,9 @@ app.factory('Msg', ['$log', 'Flash', function($log, Flash){
 
 // Fetches posts from API service
 app.factory('Post', ['$resource', function($resource){
-  return $resource('http://jsonplaceholder.typicode.com/posts/:id', {id: '@id'});
+  return $resource('http://jsonplaceholder.typicode.com/posts/:id', {id: '@id'}, {
+    update: {method: 'PUT'}
+  });
 }]);
 
 // Fetches comments from API service
@@ -61,10 +63,20 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
     });
   };
 
+  // Check if post is 'liked'
+  function liked(post){
+    if (post.favorite){
+      post.liked = true;
+    }else{
+      post.liked = false;
+    }
+  };
+
   // Iterate through posts and fetch users for each
-  function fetchUsers(){
+  function getMoreData(){
     angular.forEach($scope.posts, function(post, index){
       fetchUser(post);
+      liked(post);
     });
   };
 
@@ -87,7 +99,7 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
       // success
       function(posts){
         $scope.posts = posts;
-        fetchUsers();
+        getMoreData();
       // error
       }, function(err){
         Msg.err(err);
@@ -100,8 +112,31 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
     Post.get({id: $routeParams.id}, function(post){
       fetchUser(post);
       fetchComments(post);
+      liked(post);
       $scope.post = post;
     });
+  };
+
+  // Update post
+  function updatePost(post){
+    Post.update({
+      id: post.id,
+      liked: post.liked
+    }, function(response){
+      $log.debug(response);
+    });
+  };
+
+  // Allow user to like post
+  $scope.likePost = function(post){
+    post.liked = true;
+    updatePost(post);
+  };
+
+  // Allow user to unlike post
+  $scope.unlikePost = function(post){
+    post.liked = false;
+    updatePost(post);
   };
 }]);
 
