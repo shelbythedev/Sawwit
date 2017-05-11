@@ -1,0 +1,9 @@
+.navbar-brand {
+  font-family: "Mr Dafoe", cursive;
+  font-size: 48px;
+}
+
+.content-wrap {
+  max-width: 1000px;
+  margin: auto;
+}

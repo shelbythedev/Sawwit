@@ -5,12 +5,13 @@
     <title>Sawwit | Definitely not a Reddit clone.</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="shortcut icon" href="">
+    <link href="https://fonts.googleapis.com/css?family=Mr+Dafoe" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/custom.css" />
   </head>
   <body ng-app="sawwit">
     <div ng-include='"templates/header.html"'></div>
     <flash-message></flash-message>
-    <div ng-view></div>
+    <div class="content-wrap" ng-view></div>
     <div ng-include='"templates/footer.html"'></div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>

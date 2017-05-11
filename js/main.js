@@ -72,6 +72,7 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
     );
   };
 
+  // Get post by id
   $scope.fetchPost = function(){
     Post.get({id: $routeParams.id}, function(post){
       fetchUser(post);
