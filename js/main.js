@@ -81,7 +81,7 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
     })
   };
 
-  // Get first 100 posts from API
+  // Get posts from API
   $scope.fetchAllPosts = function(){
     Post.query(
       // success
