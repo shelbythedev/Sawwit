@@ -4,7 +4,13 @@
   </div>
 
   <div class="col-md-10">
-    <h1>{{user.name}}</h1>
+    <h1 ng-hide="edit">{{user.name}}</h1>
+    <input ng-show="edit" type="text" class="form-control" ng-model="user.name" />
+
+    <div class="btn-container">
+      <button class="btn btn-primary" ng-hide="edit" ng-click="editUser()">Edit</button>
+      <button class="btn btn-success" type="submit" ng-show="edit" ng-click="updateUser(user)">Save</button>
+    </div>
 
     <table class="table">
       <thead>
@@ -14,7 +20,8 @@
         <th>Website</th>
       </thead>
       <tbody>
-        <td>{{user.username}}</td>
+        <td ng-hide="edit">{{user.username}}</td>
+        <td ng-show="edit"><input type="text" class="form-control" ng-model="user.username" /></td>
         <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
         <td>{{user.phone}}</td>
         <td><a href="http://{{user.website}}" target="_blank">{{user.website}}</a></td>

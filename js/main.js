@@ -122,6 +122,7 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
     Post.update({
       id: post.id,
       liked: post.liked
+      // Log response to console (for testing)
     }, function(response){
       $log.debug(response);
     });
@@ -140,7 +141,7 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
   };
 }]);
 
-app.controller('usersController', ['$scope', '$log', '$http', '$routeParams', 'Post', function($scope, $log, $http, $routeParams, Post){
+app.controller('usersController', ['$scope', '$log', '$http', '$routeParams', 'Post', 'Msg', function($scope, $log, $http, $routeParams, Post, Msg){
   // Get all posts per user
   function recentPosts(){
     Post.query({userId: $scope.user.id},
@@ -154,11 +155,29 @@ app.controller('usersController', ['$scope', '$log', '$http', '$routeParams', 'P
   });
   };
 
+  // Enable edit fuctionality
+  $scope.editUser = function(){
+    $scope.edit = true;
+  };
+
   // Fetch user from API service
   $scope.fetchUser = function(){
     $http.get('http://jsonplaceholder.typicode.com/users/' + $routeParams.id).then(function(response){
       $scope.user = response.data;
       recentPosts();
+    });
+  };
+
+  // Update user
+  $scope.updateUser = function(user){
+    $http.put("http://jsonplaceholder.typicode.com/users/" + user.id, {
+      id: user.id,
+      name: user.name,
+      username: user.username
+    }).then(function(response){
+      $scope.edit = false;
+      Msg.success();
+      $log.debug(response);
     });
   };
 }]);

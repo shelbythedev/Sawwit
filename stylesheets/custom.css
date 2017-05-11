@@ -12,3 +12,9 @@
   width: 150px;
   height: 150px;
 }
+
+.btn-container {
+  position: absolute;
+  right: 0;
+  top: 20px;
+}
