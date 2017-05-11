@@ -7,3 +7,27 @@
     </p>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="well">
+      <h2>Comments</h2>
+
+      <h6 class="text-center" ng-if="comments.length == 0">No comments yet!</h6>
+
+      <div class="row" ng-if="comments.length > 0" ng-repeat="comment in comments">
+        <div class="col-md-12">
+          <h6>{{comment.email}}</h6>
+
+          <h6>{{comment.name}}</h6>
+
+          <p>
+            {{comment.body}}
+          </p>
+
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -38,6 +38,11 @@ app.factory('Post', ['$resource', function($resource){
   return $resource('http://jsonplaceholder.typicode.com/posts/:id', {id: '@id'});
 }]);
 
+// Fetches comments from API service
+app.factory('Comment', ['$resource', function($resource){
+  return $resource('http://jsonplaceholder.typicode.com/comments/:id', {id: '@id'})
+}]);
+
 //==== Controllers ====
 // Main Application Controller
 app.controller('appController', ['$scope', '$log', function($scope, $log){
@@ -45,7 +50,8 @@ app.controller('appController', ['$scope', '$log', function($scope, $log){
 }]);
 
 // Posts Controller
-app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', '$http', 'Post', 'Msg', function($scope, $log, $filter, $routeParams, $http, Post, Msg){
+app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', '$http', 'Post', 'Comment', 'Msg',
+  function($scope, $log, $filter, $routeParams, $http, Post, Comment, Msg){
   // Find user account by post.userId
   function fetchUser(post){
     $http.get('http://jsonplaceholder.typicode.com/users/' + post.userId).then(function(user){
@@ -60,12 +66,27 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
     });
   };
 
+  // Get comments for post
+  function fetchComments(post){
+    Comment.query({postId: post.id},
+      // success
+      function(comments){
+        $scope.comments = comments;
+      // error
+    }, function(err){
+        Msg.err();
+        $log.debug(err);
+    })
+  };
+
   // Get first 100 posts from API
   $scope.fetchAllPosts = function(){
     Post.query(
+      // success
       function(posts){
         $scope.posts = posts;
         fetchUsers();
+      // error
       }, function(err){
         Msg.err(err);
       }
@@ -76,6 +97,7 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
   $scope.fetchPost = function(){
     Post.get({id: $routeParams.id}, function(post){
       fetchUser(post);
+      fetchComments(post);
       $scope.post = post;
     });
   };
