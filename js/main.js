@@ -10,6 +10,9 @@ app.config(['$routeProvider', function($routeProvider){
   // Post show
   .when("/posts/:id", {templateUrl: "partials/posts/post_show.html", controller: "postsController"})
 
+  // User show
+  .when("/users/:id", {templateUrl: "partials/users/user_show.html", controller: "usersController"})
+
   // else: 404 Error
   .otherwise({templateUrl: "partials/404.html", controller: "appController"});
 }]);
@@ -46,7 +49,6 @@ app.factory('Comment', ['$resource', function($resource){
 //==== Controllers ====
 // Main Application Controller
 app.controller('appController', ['$scope', '$log', function($scope, $log){
-  $log.debug('appController running');
 }]);
 
 // Posts Controller
@@ -99,6 +101,15 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
       fetchUser(post);
       fetchComments(post);
       $scope.post = post;
+    });
+  };
+}]);
+
+app.controller('usersController', ['$scope', '$log', '$http', '$routeParams', function($scope, $log, $http, $routeParams){
+  // Fetch user from API service
+  $scope.fetchUser = function(){
+    $http.get('http://jsonplaceholder.typicode.com/users/' + $routeParams.id).then(function(response){
+      $scope.user = response.data;
     });
   };
 }]);
