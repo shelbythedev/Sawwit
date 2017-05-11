@@ -141,6 +141,7 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
   };
 }]);
 
+// Users Controller
 app.controller('usersController', ['$scope', '$log', '$http', '$routeParams', 'Post', 'Msg', function($scope, $log, $http, $routeParams, Post, Msg){
   // Get all posts per user
   function recentPosts(){
