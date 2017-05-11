@@ -105,11 +105,25 @@ app.controller('postsController', ['$scope', '$log', '$filter', '$routeParams', 
   };
 }]);
 
-app.controller('usersController', ['$scope', '$log', '$http', '$routeParams', function($scope, $log, $http, $routeParams){
+app.controller('usersController', ['$scope', '$log', '$http', '$routeParams', 'Post', function($scope, $log, $http, $routeParams, Post){
+  // Get all posts per user
+  function recentPosts(){
+    Post.query({userId: $scope.user.id},
+    // success
+    function(posts){
+      $scope.recentPosts = posts;
+    // error
+  }, function(err){
+    Msg.err();
+    $log.debug(err);
+  });
+  };
+
   // Fetch user from API service
   $scope.fetchUser = function(){
     $http.get('http://jsonplaceholder.typicode.com/users/' + $routeParams.id).then(function(response){
       $scope.user = response.data;
+      recentPosts();
     });
   };
 }]);
